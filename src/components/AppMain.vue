@@ -1,13 +1,17 @@
 <script>
 import axios from 'axios';
 import ProjectCard from './ProjectCard.vue';
+import { store } from '../store';
+import AppLoader from './AppLoader.vue';
 
 export default {
     name: "AppMain",
-    components: { ProjectCard },
+    components: { ProjectCard, AppLoader },
     data() {
         return {
             projects: [],
+            store,
+            loading: false
         };
     },
     created() {
@@ -15,8 +19,10 @@ export default {
     },
     methods: {
         getProjects() {
-            axios.get("http://127.0.0.1:8000/api/projects").then(resp => {
+            this.loading = true;
+            axios.get(`${this.store.apiBaseUrl}/api/projects`).then(resp => {
                 this.projects = resp.data.results;
+                this.loading = false;
             });
         },
     },
@@ -27,7 +33,8 @@ export default {
 <template>
     <div class="container">
         <h2 class=" text-center">Projects</h2>
-        <div class="row row-cols-4 justify-content-center g-3">
+        <AppLoader v-if="loading" />
+        <div v-else class="row row-cols-4 justify-content-center g-3">
             <ProjectCard :project="project" v-for="project in projects" :key="project.id" />
         </div>
     </div>
