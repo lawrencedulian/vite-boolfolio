@@ -30,7 +30,7 @@ export default {
                 </p>
                 <p class="text-end text-warning">{{ project.type ? project.type.name : 'No Type Assigned' }}</p>
                 <p class="card-text">{{ truncateText(project.content) }}</p>
-                <a href="" class="btn btn-primary"></a>
+                <a href="" class="btn btn-primary">Read</a>
             </div>
         </div>
     </div>
